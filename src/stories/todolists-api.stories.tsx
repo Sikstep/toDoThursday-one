@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios';
+import {todolistsAPI} from '../api/todolists-api';
 
 export default {
     title: 'API'
@@ -15,7 +16,7 @@ const settings = {
 export const GetTodolists = () => {
     const [state, setState] = useState<any>({name: 'Sikstep'})
     useEffect(() => {
-        axios.get('https://social-network.samuraijs.com/api/1.1/todo-lists', settings)
+        todolistsAPI.getTodolists()
             .then((res) => {
                 setState(res.data)
             })
@@ -52,7 +53,7 @@ export const UpdateTodolistTitle = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
         const todolistID = '1000233c-f23b-4312-9a1b-b6283fe180b5';
-        axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistID}`, {title: 'SikstepHi'}, settings)
+        axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistID}`, {title: 'WowHiBro'}, settings)
             .then((res) => {
                 setState(res.data)
             })
