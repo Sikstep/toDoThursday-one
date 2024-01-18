@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {todolistsAPI} from '../api/todolists-api';
+import {tasksAPI, todolistsAPI} from '../api/todolists-api';
 
 export default {
     title: 'API'
@@ -59,6 +59,21 @@ export const UpdateTodolistTitle = () => {
             })
     }, [])
 
+    return <div>{JSON.stringify(state)}</div>
+}
+
+export const GetTasks = () => {
+    const [state, setState] = useState<any>(null)
+    useEffect(() => {
+        const todolistID = 'd44414cc-dbd1-4153-9ce7-c51132fc2390';
+        tasksAPI.getTasks(todolistID)
+            .then((res) => {
+                setState(res.data)
+            })
+        // здесь мы будем делать запрос и ответ закидывать в стейт.
+        // который в виде строки будем отображать в div-ке
+
+    }, [])
     return <div>{JSON.stringify(state)}</div>
 }
 
