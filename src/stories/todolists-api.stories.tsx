@@ -16,7 +16,8 @@ const settings = {
 export const GetTodolists = () => {
     const [state, setState] = useState<any>({name: 'Sikstep'})
     useEffect(() => {
-        todolistsAPI.getTodolists()
+        // todolistsAPI.getTodolists()
+        axios.get('https://social-network.samuraijs.com/api/1.1/todo-lists', settings)
             .then((res) => {
                 setState(res.data)
             })
