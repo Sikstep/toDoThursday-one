@@ -31,9 +31,23 @@ type ResponseType<D> = {
 }
 
 export type TasksType = {
-    items:[]
+    description: string
+    title: string
+    completed: boolean
+    status: number
+    priority: number
+    startDate: string
+    deadline: string
+    id: string
+    todoListId: string
+    order: number
+    addedDate: string
+}
+
+export type TasksResposneType = {
+    items: TasksType[]
     totalCount: number
-    error: any
+    error: string | null
 }
 export const todolistsAPI = {
 
@@ -56,6 +70,7 @@ export const todolistsAPI = {
 
 export const tasksAPI = {
     getTasks(todolistID:string) {
-        return instance.get(`/todo-lists/${todolistID}/tasks`)
-    }
+        return instance.get<TasksResposneType>(`/todo-lists/${todolistID}/tasks`)
+    },
+
 }
