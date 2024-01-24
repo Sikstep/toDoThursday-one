@@ -94,35 +94,54 @@ export const UpdateTodolistTitle = () => {
 
     const UpdateTodolistTitleOnClickHandler = () => {
         todolistsAPI.updateTodolistTitle(todolistID, newTodolistTitle)
-                .then((res) => {
-            setState(res.data)
-        })
+            .then((res) => {
+                setState(res.data)
+            })
         setNewTodolistTitle('')
         setTodolistID('')
     }
 
     return <div>{JSON.stringify(state)}
-    <div>
-        <input placeholder={'todolistID'} value={todolistID} onChange={(e) => setTodolistID(e.currentTarget.value)}/>
-        <input placeholder={'newTodolistTitle'} value={newTodolistTitle} onChange={(e) => setNewTodolistTitle(e.currentTarget.value)}/>
-        <button onClick={UpdateTodolistTitleOnClickHandler}>Update Todolist Title</button>
-    </div>
+        <div>
+            <input placeholder={'todolistID'} value={todolistID}
+                   onChange={(e) => setTodolistID(e.currentTarget.value)}/>
+            <input placeholder={'newTodolistTitle'} value={newTodolistTitle}
+                   onChange={(e) => setNewTodolistTitle(e.currentTarget.value)}/>
+            <button onClick={UpdateTodolistTitleOnClickHandler}>Update Todolist Title</button>
+        </div>
     </div>
 }
 
 export const GetTasks = () => {
     const [state, setState] = useState<any>(null)
-    useEffect(() => {
-        const todolistID = 'c3faed74-4c1b-4f83-80b8-8af34f48d836';
+    const [todolistID, setTodolistID] = useState<string>('');
+    // useEffect(() => {
+    //     const todolistID = 'c3faed74-4c1b-4f83-80b8-8af34f48d836';
+    //     tasksAPI.getTasks(todolistID)
+    //         .then((res) => {
+    //             setState(res.data)
+    //         })
+    //     // здесь мы будем делать запрос и ответ закидывать в стейт.
+    //     // который в виде строки будем отображать в div-ке
+    //
+    // }, [])
+
+    const GetTodolistTasksOnclickHandler = () => {
         tasksAPI.getTasks(todolistID)
             .then((res) => {
                 setState(res.data)
             })
-        // здесь мы будем делать запрос и ответ закидывать в стейт.
-        // который в виде строки будем отображать в div-ке
+        setTodolistID('')
+    }
 
-    }, [])
-    return <div>{JSON.stringify(state)}</div>
+
+    return <div>{JSON.stringify(state)}
+        <div>
+            <input placeholder={'todolistID'} value={todolistID}
+                   onChange={event => setTodolistID(event.currentTarget.value)}/>
+            <button onClick={GetTodolistTasksOnclickHandler}>Get todolist tasks</button>
+        </div>
+    </div>
 }
 
 export const CreateTask = () => {
@@ -147,11 +166,13 @@ export const CreateTask = () => {
     }
 
     return <div>{JSON.stringify(state)}
-    <div>
-        <input placeholder={'todolistID'} value={todolistID} onChange={event => setTodolistID(event.currentTarget.value)}/>
-        <input placeholder={'taskName'} value={taskTitle} onChange={event => setTaskTitle(event.currentTarget.value)}/>
-        <button onClick={CreateTaskOnclickHandler}>Create Task</button>
-    </div>
+        <div>
+            <input placeholder={'todolistID'} value={todolistID}
+                   onChange={event => setTodolistID(event.currentTarget.value)}/>
+            <input placeholder={'taskName'} value={taskTitle}
+                   onChange={event => setTaskTitle(event.currentTarget.value)}/>
+            <button onClick={CreateTaskOnclickHandler}>Create Task</button>
+        </div>
     </div>
 }
 
