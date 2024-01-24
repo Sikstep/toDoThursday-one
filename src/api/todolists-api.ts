@@ -91,12 +91,12 @@ export const tasksAPI = {
     updateTaskTitle(todolistID: string, taskID: string, newTaskTitle: string) {
         const updetingTaskTitleName: UpdateTaskType = {
             title: newTaskTitle,
-            description: null,
+            description: '',
             completed: false,
             status: 0,
             priority: 1,
-            startDate: null,
-            deadline: null,
+            startDate: '',
+            deadline: '',
         }
         return instance.put<ResponseType>(`/todo-lists/${todolistID}/tasks/${taskID}`, updetingTaskTitleName)
     }
