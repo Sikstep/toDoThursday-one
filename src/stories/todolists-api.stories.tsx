@@ -200,7 +200,8 @@ export const DeleteTask = () => {
 
     return <div>{JSON.stringify(state)}
         <div>
-            <input placeholder={'todolistID'} value={todolistID} onChange={event => setTodolistID(event.currentTarget.value)}/>
+            <input placeholder={'todolistID'} value={todolistID}
+                   onChange={event => setTodolistID(event.currentTarget.value)}/>
             <input placeholder={'taskID'} value={taskID} onChange={event => setTaskID(event.currentTarget.value)}/>
             <button onClick={deleteTaskHandler}>delete task</button>
         </div>
@@ -232,11 +233,12 @@ export const updateTaskTitleName = () => {
     }
 
     return <div>{JSON.stringify(state)}
-    <div>
-        <input placeholder={'todolistID'} value={todolistID} onChange={e => setTodolistID(e.currentTarget.value)}/>
-        <input placeholder={'taskID'} value={taskID} onChange={e => setTaskID(e.currentTarget.value)}/>
-        <input placeholder={'newTaskTitle'} value={newTaskTitle} onChange={e => setNewTaskTitle(e.currentTarget.value)}/>
-        <button onClick={UpdateTaskTitleOnclickHandler}>Submit new task title</button>
-    </div>
+        <div>
+            <input placeholder={'todolistID'} value={todolistID} onChange={e => setTodolistID(e.currentTarget.value)}/>
+            <input placeholder={'taskID'} value={taskID} onChange={e => setTaskID(e.currentTarget.value)}/>
+            <input placeholder={'newTaskTitle'} value={newTaskTitle}
+                   onChange={e => setNewTaskTitle(e.currentTarget.value)}/>
+            <button onClick={UpdateTaskTitleOnclickHandler}>Submit new task title</button>
+        </div>
     </div>
 }

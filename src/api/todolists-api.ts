@@ -83,7 +83,7 @@ export const tasksAPI = {
         return instance.get<GetTasksResposneType>(`/todo-lists/${todolistID}/tasks`)
     },
     createNewTask(todolistID: string, newTaskName: string) {
-        return instance.post<ResponseType<TasksType[]>>(`/todo-lists/${todolistID}/tasks`, {title: newTaskName})
+        return instance.post<ResponseType<TasksType>>(`/todo-lists/${todolistID}/tasks`, {title: newTaskName})
     },
     deleteTask(todolistID: string, taskID: string) {
         return instance.delete<ResponseType>(`/todo-lists/${todolistID}/tasks/${taskID}`)

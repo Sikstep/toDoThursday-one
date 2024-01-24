@@ -23,11 +23,7 @@ import {AppRootStateType} from './state/store';
 
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
-export type TodolistType = {
-    id: string
-    title: string
-    filter: FilterValuesType
-}
+
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
