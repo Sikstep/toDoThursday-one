@@ -44,7 +44,7 @@ export type TasksType = {
     addedDate: string
 }
 
-export type TasksResposneType = {
+export type GetTasksResposneType = {
     items: TasksType[]
     totalCount: number
     error: string | null
@@ -70,7 +70,9 @@ export const todolistsAPI = {
 
 export const tasksAPI = {
     getTasks(todolistID:string) {
-        return instance.get<TasksResposneType>(`/todo-lists/${todolistID}/tasks`)
+        return instance.get<GetTasksResposneType>(`/todo-lists/${todolistID}/tasks`)
     },
-
+    createNewTask(todolistID: string, newTaskName: string) {
+        return instance.post<ResponseType<TasksType[]>>(`/todo-lists/${todolistID}/tasks`, {title: newTaskName})
+    },
 }
