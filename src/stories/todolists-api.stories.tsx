@@ -103,8 +103,8 @@ export const UpdateTodolistTitle = () => {
 
     return <div>{JSON.stringify(state)}
     <div>
-        <input placeholder={todolistID} onChange={(e) => {e.currentTarget.value}}/>
-        <input placeholder={newTodolistTitle} onChange={(e) => {e.currentTarget.value}}/>
+        <input placeholder={'todolistID'} value={todolistID} onChange={(e) => setTodolistID(e.currentTarget.value)}/>
+        <input placeholder={'newTodolistTitle'} value={newTodolistTitle} onChange={(e) => setNewTodolistTitle(e.currentTarget.value)}/>
         <button onClick={UpdateTodolistTitleOnClickHandler}>Update Todolist Title</button>
     </div>
     </div>
