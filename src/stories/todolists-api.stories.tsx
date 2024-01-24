@@ -115,23 +115,23 @@ export const UpdateTodolistTitle = () => {
 export const GetTasks = () => {
     const [state, setState] = useState<any>(null)
     const [todolistID, setTodolistID] = useState<string>('');
-    // useEffect(() => {
-    //     const todolistID = 'c3faed74-4c1b-4f83-80b8-8af34f48d836';
-    //     tasksAPI.getTasks(todolistID)
-    //         .then((res) => {
-    //             setState(res.data)
-    //         })
-    //     // здесь мы будем делать запрос и ответ закидывать в стейт.
-    //     // который в виде строки будем отображать в div-ке
-    //
-    // }, [])
+    useEffect(() => {
+        const todolistID = 'c3faed74-4c1b-4f83-80b8-8af34f48d836';
+        tasksAPI.getTasks(todolistID)
+            .then((res) => {
+                setState(res.data)
+            })
+        // здесь мы будем делать запрос и ответ закидывать в стейт.
+        // который в виде строки будем отображать в div-ке
+
+    }, [])
 
     const GetTodolistTasksOnclickHandler = () => {
         tasksAPI.getTasks(todolistID)
             .then((res) => {
                 setState(res.data)
             })
-        setTodolistID('')
+
     }
 
 
