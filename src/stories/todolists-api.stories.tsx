@@ -1,5 +1,6 @@
 import React, {ChangeEvent, useEffect, useState} from 'react'
 import {tasksAPI, todolistsAPI} from '../api/todolists-api';
+import axios from 'axios';
 
 export default {
     title: 'API'
@@ -208,20 +209,20 @@ export const DeleteTask = () => {
     </div>
 }
 
-export const updateTaskTitleName = () => {
+export const UpdateTaskTitleName = () => {
     const [state, setState] = useState<any>(null);
     const [todolistID, setTodolistID] = useState<string>('');
     const [taskID, setTaskID] = useState<string>('');
     const [newTaskTitle, setNewTaskTitle] = useState<string>('');
-    // useEffect(() => {
-    //     const todolistID = 'd44414cc-dbd1-4153-9ce7-c51132fc2390';
-    //     const taskID = '4cb7ec33-fadc-423d-8ac0-4c9d40731f0b';
-    //     const newTitle = 'Epta Title';
-    //     tasksAPI.updateTaskTitle(todolistID, taskID, newTitle)
-    //         .then((res) => {
-    //             setState(res.data)
-    //         })
-    // }, [])
+    useEffect(() => {
+        const todolistID = 'd44414cc-dbd1-4153-9ce7-c51132fc2390';
+        const taskID = '4cb7ec33-fadc-423d-8ac0-4c9d40731f0b';
+        const newTitle = 'Epta Title';
+        tasksAPI.updateTaskTitle(todolistID, taskID, newTitle)
+            .then((res) => {
+                setState(res.data)
+            })
+    }, [])
 
     const UpdateTaskTitleOnclickHandler = () => {
         tasksAPI.updateTaskTitle(todolistID, taskID, newTaskTitle)
@@ -241,4 +242,19 @@ export const updateTaskTitleName = () => {
             <button onClick={UpdateTaskTitleOnclickHandler}>Submit new task title</button>
         </div>
     </div>
+}
+
+export const GetTodolistNew = () => {
+    const [state, setState] = useState<any>(null);
+
+    useEffect(() => {
+        axios.get(`https://social-network.samuraijs.com/api/1.1`, settings)
+            .then((res) => {
+                console.log(res)
+                console.log(res.data)
+                setState(res.data)
+            })
+    }, [])
+
+    return <div>{JSON.stringify((state))}</div>
 }
