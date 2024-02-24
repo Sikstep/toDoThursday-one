@@ -248,10 +248,8 @@ export const GetTodolistNew = () => {
     const [state, setState] = useState<any>(null);
 
     useEffect(() => {
-        axios.get(`https://social-network.samuraijs.com/api/1.1`, settings)
+        axios.get(`https://social-network.samuraijs.com/api/1.1/todo-lists`, settings)
             .then((res) => {
-                console.log(res)
-                console.log(res.data)
                 setState(res.data)
             })
     }, [])
