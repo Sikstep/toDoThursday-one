@@ -6,9 +6,15 @@ export default {
 }
 
 const settings = {
-    withCredentials: true
+    withCredentials: true,
+    headers: {
+        'API-KEY': 'd81fccac-5744-451d-a285-45fc5bdcae7b'
+    },
 }
 
+const instans = axios.create(
+
+)
 
 export const GetTodolists = () => {
     const [state, setState] = useState<any>(null)
