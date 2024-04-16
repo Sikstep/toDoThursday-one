@@ -1,26 +1,15 @@
 import React, {ChangeEvent, MouseEvent, useEffect, useState} from 'react'
-import axios from 'axios';
+import {todolistsAPI} from '../api/todolists-api';
 
 export default {
     title: 'API',
 }
 
-const settings = {
-    withCredentials: true,
-    headers: {
-        'API-KEY': 'd81fccac-5744-451d-a285-45fc5bdcae7b'
-    },
-}
-
-const instans = axios.create(
-
-)
 
 export const GetTodolists = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        axios.get('https://social-network.samuraijs.com/api/1.1/todo-lists', settings)
-            .then(res => setState(res.data))
+        todolistsAPI.getTodolists().then(res => setState(res.data))
 
 
         // здесь мы будем делать запрос и ответ закидывать в стейт.
@@ -42,7 +31,7 @@ export const CreateTodolist = () => {
     }
 
     const onClickButtonHandler = (e: MouseEvent<HTMLButtonElement>) => {
-        axios.post('https://social-network.samuraijs.com/api/1.1/todo-lists', {title: `${title}`}, settings)
+        todolistsAPI.createTodolist(title)
             .then(res => setState(res.data))
         setTitle('')
     }
@@ -67,7 +56,7 @@ export const DeleteTodolist = () => {
     }
 
     const onClickButtonHandler = (e: MouseEvent<HTMLButtonElement>) => {
-        axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${deletedID}`, settings)
+        todolistsAPI.deleteTodolist(deletedID)
             .then(res => setState(res.data))
         setDeletedID('')
     }
@@ -97,7 +86,7 @@ export const UpdateTodolistTitle = () => {
     }
 
     const onClickButtonHandler = (e: MouseEvent<HTMLButtonElement>) => {
-        axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${updatedID}`, {title: newTitle}, settings)
+        todolistsAPI.updateTodolistTitle(updatedID, newTitle)
             .then(res => setState(res.data))
         setUpdatedID('')
         setNewTitle('')
@@ -108,8 +97,10 @@ export const UpdateTodolistTitle = () => {
             <div>
                 {JSON.stringify(state)}
             </div>
-            <input type="text" value={updatedID} placeholder={'Введите ID тудулиста'} onChange={onChangeInputHandlerID}/>
-            <input type="text" value={newTitle} placeholder={'Введите новый title'} onChange={onChangeInputHandlerTitle}/>
+            <input type="text" value={updatedID} placeholder={'Введите ID тудулиста'}
+                   onChange={onChangeInputHandlerID}/>
+            <input type="text" value={newTitle} placeholder={'Введите новый title'}
+                   onChange={onChangeInputHandlerTitle}/>
             <button onClick={onClickButtonHandler}>Submit</button>
         </div>
     )
