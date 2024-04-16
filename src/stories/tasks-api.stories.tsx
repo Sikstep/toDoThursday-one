@@ -1,28 +1,38 @@
-import React, {ChangeEvent, MouseEvent, useEffect, useState} from 'react'
+import React, {ChangeEvent, MouseEvent, useState} from 'react'
 import {todolistsAPI} from '../api/todolists-api';
+import {tasksAPI} from '../api/tasks-api';
 
 export default {
-    title: 'TodolistsAPI',
+    title: 'TasksAPI',
 }
 
 
-export const GetTodolists = () => {
+export const GetTasks = () => {
     const [state, setState] = useState<any>(null)
-    useEffect(() => {
-        todolistsAPI.getTodolists().then(res => setState(res.data))
+    const [todolistID, setTodolistID] = useState<any>(null);
 
 
-        // здесь мы будем делать запрос и ответ закидывать в стейт.
-        // который в виде строки будем отображать в div-ке
-    }, [])
+    const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTodolistID(e.currentTarget.value)
+    }
+
+    const onClickButtonHandler = (e: MouseEvent<HTMLButtonElement>) => {
+        tasksAPI.getTasks(todolistID).then(res => setState(res.data))
+        setTodolistID('')
+    }
+
     return (
         <div>
-            {JSON.stringify(state)}
+            <div>
+                {JSON.stringify(state)}
+            </div>
+            <input type="text" value={todolistID} placeholder={'Введите todolistID'} onChange={onChangeInputHandler}/>
+            <button onClick={onClickButtonHandler}>Submit</button>
         </div>
     )
 }
 
-export const CreateTodolist = () => {
+export const CreateTask = () => {
     const [state, setState] = useState<any>(null)
     const [title, setTitle] = useState<any>(null)
 
@@ -48,7 +58,7 @@ export const CreateTodolist = () => {
     )
 }
 
-export const DeleteTodolist = () => {
+export const DeleteTask = () => {
     const [state, setState] = useState<any>(null)
     const [deletedID, setDeletedID] = useState<any>(null)
     const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -72,7 +82,7 @@ export const DeleteTodolist = () => {
     )
 }
 
-export const UpdateTodolistTitle = () => {
+export const UpdateTaskTitle = () => {
     const [state, setState] = useState<any>(null)
     const [updatedID, setUpdatedID] = useState<any>(null)
     const [newTitle, setNewTitle] = useState<any>(null)
