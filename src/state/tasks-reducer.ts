@@ -1,7 +1,7 @@
-import {v1} from 'uuid';
-import {AddTodolistActionType, RemoveTodolistActionType} from './todolists-reducer';
-import {TasksStateType} from '../App';
-import {TaskPriorities, TaskStatuses, TaskType} from '../api/todolists-api';
+import { TaskType } from '../Todolist';
+import { v1 } from 'uuid';
+import { AddTodolistActionType, RemoveTodolistActionType } from './todolists-reducer';
+import { TasksStateType } from '../App';
 
 export type RemoveTaskActionType = {
     type: 'REMOVE-TASK',
@@ -51,15 +51,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             const newTask: TaskType = {
                 id: v1(),
                 title: action.title,
-                status: TaskStatuses.New,
-                description: '',
-                priority: TaskPriorities.Low,
-                order: 0,
-                todoListId: action.todolistId,
-                startDate: '',
-                deadline: '',
-                addedDate: '',
-                completed: false
+                isDone: false
             }
             const tasks = stateCopy[action.todolistId];
             const newTasks = [newTask, ...tasks];
@@ -69,7 +61,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         case 'CHANGE-TASK-STATUS': {
             let todolistTasks = state[action.todolistId];
             let newTasksArray = todolistTasks
-                .map(t => t.id === action.taskId ? {...t, status: action.isDone ? TaskStatuses.Completed : TaskStatuses.New} : t);
+                .map(t => t.id === action.taskId ? {...t, isDone: action.isDone} : t);
 
             state[action.todolistId] = newTasksArray;
             return ({...state});
