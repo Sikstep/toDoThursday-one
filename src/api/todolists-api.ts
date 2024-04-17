@@ -5,7 +5,7 @@ type FieldErrorType = {
     field: string
 }
 
-export type todolistType = {
+export type TodolistType = {
     id: string
     title: string
     addedDate: string
@@ -29,10 +29,10 @@ export const instance = axios.create({
 
 export const todolistsAPI = {
     getTodolists() {
-        return  instance.get<todolistType[]>(`todo-lists`)
+        return  instance.get<TodolistType[]>(`todo-lists`)
     },
     createTodolist(title: string) {
-        return instance.post<CreateTodolistResponseType<{item: todolistType}>>(`todo-lists`, {title: title})
+        return instance.post<CreateTodolistResponseType<{item: TodolistType}>>(`todo-lists`, {title: title})
     },
     deleteTodolist(todolistID: string) {
         return instance.delete<CreateTodolistResponseType>(`todo-lists/${todolistID}`)
