@@ -1,4 +1,4 @@
-import { instans } from "./todolists-api"
+import {instans, ResponseTodoType} from './todolists-api'
 
 export type tasksType = {
     id: string
@@ -25,12 +25,12 @@ export const tasksAPI = {
         return  instans.get<ResponsTaskType>(`todo-lists/${todolistID}/tasks`)
     },
     createNewTask(todolistID: string, title: string) {
-        return instans.post<ResponseType>(`todo-lists/${todolistID}/tasks`, {title: title})
+        return instans.post<ResponseTodoType<{item:tasksType}>>(`todo-lists/${todolistID}/tasks`, {title: title})
     },
     deleteTask(todolistID: string, taskID: string) {
-        return instans.delete<ResponseType>(`todo-lists/${todolistID}/${taskID}`)
+        return instans.delete<ResponseTodoType>(`todo-lists/${todolistID}/tasks/${taskID}`)
     },
-    // updateTodolistTitle(todolistID: string, newTitle: string) {
-    //     return instans.put<ResponseType>(`todo-lists/${todolistID}`, {title: newTitle})
-    // }
+    updateTaskTitle(todolistID: string, taskID: string, newTitle: string) {
+        return instans.put<ResponseTodoType<{item:tasksType}>>(`todo-lists/${todolistID}/tasks/${taskID}`, {title: newTitle})
+    }
 }

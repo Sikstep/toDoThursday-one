@@ -6,10 +6,11 @@ export default {
     title: 'TasksAPI',
 }
 
+const defaultTodolistID = '02ffbc2c-e00c-48a8-bb4b-1d78984097be';
 
 export const GetTasks = () => {
     const [state, setState] = useState<any>(null)
-    const [todolistID, setTodolistID] = useState<any>(null);
+    const [todolistID, setTodolistID] = useState<any>(defaultTodolistID);
 
 
     const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -18,7 +19,6 @@ export const GetTasks = () => {
 
     const onClickButtonHandler = (e: MouseEvent<HTMLButtonElement>) => {
         tasksAPI.getTasks(todolistID).then(res => setState(res.data))
-        setTodolistID('')
     }
 
     return (
@@ -34,7 +34,7 @@ export const GetTasks = () => {
 
 export const CreateTask = () => {
     const [state, setState] = useState<any>(null)
-    const [todolistID, setTodolistID] = useState<any>(null)
+    const [todolistID, setTodolistID] = useState<any>(defaultTodolistID)
     const [title, setTitle] = useState<any>(null)
 
     const onChangeInputHandlerTodolistID = (e: ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +45,7 @@ export const CreateTask = () => {
         setTitle(e.currentTarget.value)
     }
     const onClickButtonHandler = (e: MouseEvent<HTMLButtonElement>) => {
-        tasksAPI.createNewTask(todolistID,title)
+        tasksAPI.createNewTask(todolistID, title)
             .then(res => setState(res.data))
         setTitle('')
     }
@@ -56,8 +56,10 @@ export const CreateTask = () => {
             <div>
                 {JSON.stringify(state)}
             </div>
-            <input type="text" value={todolistID} placeholder={'Введите todolistID'} onChange={onChangeInputHandlerTodolistID}/>
-            <input type="text" value={title} placeholder={'Введите title для таски'} onChange={onChangeInputHandlerNewTaskTitle}/>
+            <input type="text" value={todolistID} placeholder={'Введите todolistID'}
+                   onChange={onChangeInputHandlerTodolistID}/>
+            <input type="text" value={title} placeholder={'Введите title для таски'}
+                   onChange={onChangeInputHandlerNewTaskTitle}/>
             <button onClick={onClickButtonHandler}>Submit</button>
         </div>
     )
@@ -65,7 +67,7 @@ export const CreateTask = () => {
 
 export const DeleteTask = () => {
     const [state, setState] = useState<any>(null)
-    const [deletedID, setDeletedID] = useState<any>(null)
+    const [deletedID, setDeletedID] = useState<any>(defaultTodolistID)
     const [taskID, setTaskID] = useState<any>(null)
     const onChangeInputHandlerTodoID = (e: ChangeEvent<HTMLInputElement>) => {
         setDeletedID(e.currentTarget.value)
@@ -85,7 +87,8 @@ export const DeleteTask = () => {
             <div>
                 {JSON.stringify(state)}
             </div>
-            <input type="text" value={deletedID} placeholder={'Введите ID todo листа'} onChange={onChangeInputHandlerTodoID}/>
+            <input type="text" value={deletedID} placeholder={'Введите ID todo листа'}
+                   onChange={onChangeInputHandlerTodoID}/>
             <input type="text" value={taskID} placeholder={'Введите ID таски'} onChange={onChangeInputHandlerTaskID}/>
             <button onClick={onClickButtonHandler}>Submit</button>
         </div>
@@ -94,21 +97,26 @@ export const DeleteTask = () => {
 
 export const UpdateTaskTitle = () => {
     const [state, setState] = useState<any>(null)
-    const [updatedID, setUpdatedID] = useState<any>(null)
+    const [updatedTodoID, setUpdatedTodoID] = useState<any>(defaultTodolistID)
+    const [taskID, setTaskID] = useState<any>(null)
     const [newTitle, setNewTitle] = useState<any>(null)
 
     const onChangeInputHandlerID = (e: ChangeEvent<HTMLInputElement>) => {
-        setUpdatedID(e.currentTarget.value)
+        setUpdatedTodoID(e.currentTarget.value)
     }
 
     const onChangeInputHandlerTitle = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTitle(e.currentTarget.value)
     }
 
+    const onChangeInputHandlerTaskID = (e: ChangeEvent<HTMLInputElement>) => {
+        setTaskID(e.currentTarget.value)
+    }
+
     const onClickButtonHandler = (e: MouseEvent<HTMLButtonElement>) => {
-        todolistsAPI.updateTodolistTitle(updatedID, newTitle)
+        tasksAPI.updateTaskTitle(updatedTodoID, taskID, newTitle)
             .then(res => setState(res.data))
-        setUpdatedID('')
+        setTaskID('')
         setNewTitle('')
     }
 
@@ -117,8 +125,10 @@ export const UpdateTaskTitle = () => {
             <div>
                 {JSON.stringify(state)}
             </div>
-            <input type="text" value={updatedID} placeholder={'Введите ID тудулиста'}
+            <input type="text" value={updatedTodoID} placeholder={'Введите ID тудулиста'}
                    onChange={onChangeInputHandlerID}/>
+            <input type="text" value={taskID} placeholder={'Введите taskID'}
+                   onChange={onChangeInputHandlerTaskID}/>
             <input type="text" value={newTitle} placeholder={'Введите новый title'}
                    onChange={onChangeInputHandlerTitle}/>
             <button onClick={onClickButtonHandler}>Submit</button>

@@ -7,7 +7,7 @@ export type todolistType = {
     order: number
 }
 
-export type ResponseType<D = {}> = {
+export type ResponseTodoType<D = {}> = {
     data: D
     messages: Array<string>
     fieldsErrors:Array<any>
@@ -27,12 +27,12 @@ export const todolistsAPI = {
         return  instans.get<todolistType[]>(`todo-lists`)
     },
     createTodolist(title: string) {
-        return instans.post<ResponseType<todolistType>>(`todo-lists`, {title: title})
+        return instans.post<ResponseTodoType<todolistType>>(`todo-lists`, {title: title})
     },
     deleteTodolist(todolistID: string) {
-        return instans.delete<ResponseType>(`todo-lists/${todolistID}`)
+        return instans.delete<ResponseTodoType>(`todo-lists/${todolistID}`)
     },
     updateTodolistTitle(todolistID: string, newTitle: string) {
-        return instans.put<ResponseType>(`todo-lists/${todolistID}`, {title: newTitle})
+        return instans.put<ResponseTodoType>(`todo-lists/${todolistID}`, {title: newTitle})
     }
 }
