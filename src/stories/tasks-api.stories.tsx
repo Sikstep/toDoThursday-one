@@ -101,6 +101,15 @@ export const UpdateTaskTitle = () => {
     const [taskID, setTaskID] = useState<any>(null)
     const [newTitle, setNewTitle] = useState<any>(null)
 
+    const newModel = {
+        title: newTitle,
+        description: '',
+        completed: false,
+        status: 1,
+        priority: 3,
+        startDate: '',
+        deadline: '',
+    }
     const onChangeInputHandlerID = (e: ChangeEvent<HTMLInputElement>) => {
         setUpdatedTodoID(e.currentTarget.value)
     }
@@ -114,7 +123,7 @@ export const UpdateTaskTitle = () => {
     }
 
     const onClickButtonHandler = (e: MouseEvent<HTMLButtonElement>) => {
-        tasksAPI.updateTaskTitle(updatedTodoID, taskID, newTitle)
+        tasksAPI.updateTaskModel(updatedTodoID, taskID, newModel)
             .then(res => setState(res.data))
         setTaskID('')
         setNewTitle('')

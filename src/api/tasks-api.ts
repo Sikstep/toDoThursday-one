@@ -1,4 +1,14 @@
-import {instans, ResponseTodoType} from './todolists-api'
+import {instance, CreateTodolistResponseType} from './todolists-api'
+
+export type modelType = {
+    title: string
+    description: string
+    completed: boolean
+    status: number
+    priority: number
+    startDate: string
+    deadline: string
+}
 
 export type tasksType = {
     id: string
@@ -22,15 +32,15 @@ export type ResponsTaskType = {
 
 export const tasksAPI = {
     getTasks(todolistID: string) {
-        return  instans.get<ResponsTaskType>(`todo-lists/${todolistID}/tasks`)
+        return  instance.get<ResponsTaskType>(`todo-lists/${todolistID}/tasks`)
     },
     createNewTask(todolistID: string, title: string) {
-        return instans.post<ResponseTodoType<{item:tasksType}>>(`todo-lists/${todolistID}/tasks`, {title: title})
+        return instance.post<CreateTodolistResponseType<{item:tasksType}>>(`todo-lists/${todolistID}/tasks`, {title: title})
     },
     deleteTask(todolistID: string, taskID: string) {
-        return instans.delete<ResponseTodoType>(`todo-lists/${todolistID}/tasks/${taskID}`)
+        return instance.delete<CreateTodolistResponseType>(`todo-lists/${todolistID}/tasks/${taskID}`)
     },
-    updateTaskTitle(todolistID: string, taskID: string, newTitle: string) {
-        return instans.put<ResponseTodoType<{item:tasksType}>>(`todo-lists/${todolistID}/tasks/${taskID}`, {title: newTitle})
+    updateTaskModel(todolistID: string, taskID: string, model: modelType) {
+        return instance.put<CreateTodolistResponseType<{item:tasksType}>>(`todo-lists/${todolistID}/tasks/${taskID}`,  model)
     }
 }

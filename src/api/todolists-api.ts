@@ -1,5 +1,10 @@
 import axios from 'axios';
 
+type FieldErrorType = {
+    error: string
+    field: string
+}
+
 export type todolistType = {
     id: string
     title: string
@@ -7,14 +12,14 @@ export type todolistType = {
     order: number
 }
 
-export type ResponseTodoType<D = {}> = {
+export type CreateTodolistResponseType<D = {}> = {
     data: D
-    messages: Array<string>
-    fieldsErrors:Array<any>
+    messages: string[]
+    fieldsErrors:FieldErrorType[]
     resultCode: number
 }
 
-export const instans = axios.create({
+export const instance = axios.create({
     baseURL: `https://social-network.samuraijs.com/api/1.1/`,
     withCredentials: true,
     headers: {
@@ -24,15 +29,15 @@ export const instans = axios.create({
 
 export const todolistsAPI = {
     getTodolists() {
-        return  instans.get<todolistType[]>(`todo-lists`)
+        return  instance.get<todolistType[]>(`todo-lists`)
     },
     createTodolist(title: string) {
-        return instans.post<ResponseTodoType<todolistType>>(`todo-lists`, {title: title})
+        return instance.post<CreateTodolistResponseType<{item: todolistType}>>(`todo-lists`, {title: title})
     },
     deleteTodolist(todolistID: string) {
-        return instans.delete<ResponseTodoType>(`todo-lists/${todolistID}`)
+        return instance.delete<CreateTodolistResponseType>(`todo-lists/${todolistID}`)
     },
     updateTodolistTitle(todolistID: string, newTitle: string) {
-        return instans.put<ResponseTodoType>(`todo-lists/${todolistID}`, {title: newTitle})
+        return instance.put<CreateTodolistResponseType>(`todo-lists/${todolistID}`, {title: newTitle})
     }
 }
