@@ -43,7 +43,7 @@ function App() {
     useEffect(() => {
         todolistsAPI.getTodolists()
             .then((res) => {
-                dispatch(setTodolistsThunk(res.data))
+                dispatch(setTodolistsThunk)
             })
     }, [])
 
