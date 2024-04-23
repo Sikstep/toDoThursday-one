@@ -115,7 +115,7 @@ export const changeTaskTitleAC = (taskId: string, title: string, todolistId: str
     return {type: 'CHANGE-TASK-TITLE', title, todolistId, taskId} as const
 }
 
-export const setTasksThunkTC = (todolistID: string) => (dispatch: Dispatch<ActionsType>) => {
+export const getTasksTC = (todolistID: string) => (dispatch: Dispatch<ActionsType>) => {
     tasksAPI.getTasks(todolistID)
         .then((res) => {
             console.log(res.data.items)
