@@ -2,7 +2,7 @@ import {TodolistDomainType} from '../App';
 import {todolistsAPI, TodolistType} from '../api/todolists-api';
 import {Dispatch} from 'redux';
 import {v1} from 'uuid';
-import {getTasksTC} from './tasks-reducer';
+import {getTasksTC, setTasksAC} from './tasks-reducer';
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
 
@@ -90,6 +90,5 @@ export const setTodolistsThunkTC = () => (dispatch: Dispatch<ActionsType>) => {
     todolistsAPI.getTodolists()
         .then((res) => {
             dispatch(setTodolistsAC(res.data))
-            res.data.map(tl => getTasksTC(tl.id))
         })
 }
