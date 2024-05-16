@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 
 type FieldErrorType = {
     error: string
@@ -32,12 +32,12 @@ export const todolistsAPI = {
         return  instance.get<TodolistType[]>(`todo-lists`)
     },
     createTodolist(title: string) {
-        return instance.post<CreateTodolistResponseType<{item: TodolistType}>>(`todo-lists`, {title: title})
+        return instance.post<CreateTodolistResponseType<{item: TodolistType}>, AxiosResponse<CreateTodolistResponseType<{item: TodolistType}>>, {title: string}>(`todo-lists`, {title: title})
     },
     deleteTodolist(todolistID: string) {
         return instance.delete<CreateTodolistResponseType>(`todo-lists/${todolistID}`)
     },
     updateTodolistTitle(todolistID: string, newTitle: string) {
-        return instance.put<CreateTodolistResponseType>(`todo-lists/${todolistID}`, {title: newTitle})
+        return instance.put<CreateTodolistResponseType, AxiosResponse<CreateTodolistResponseType>, {title: string}>(`todo-lists/${todolistID}`, {title: newTitle})
     }
 }
