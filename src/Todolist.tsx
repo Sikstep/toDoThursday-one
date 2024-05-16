@@ -8,7 +8,7 @@ import {Task} from './Task'
 
 import {tasksAPI, TaskStatuses, TaskType} from './api/tasks-api';
 import {FilterValuesType} from './state/todolists-reducer';
-import {getTasksTC} from './state/tasks-reducer';
+import {createTaskTC, getTasksTC} from './state/tasks-reducer';
 import {useAppDispatch} from './state/store';
 
 
