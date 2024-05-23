@@ -19,9 +19,9 @@ import {
     removeTodolistAC,
     setTodolistsThunkTC
 } from './state/todolists-reducer';
-import {changeTaskStatusAC, changeTaskTitleAC, createTaskTC, removeTaskTC} from './state/tasks-reducer';
+import {changeTaskStatusAC, changeTaskTitleAC, createTaskTC, removeTaskTC, updateTaskTC} from './state/tasks-reducer';
 import {useAppDispatch, useAppSelector} from './state/store';
-import {TaskStatuses, TaskType} from './api/tasks-api';
+import {ModelType, TaskStatuses, TaskType} from './api/tasks-api';
 import {TodolistType} from './api/todolists-api';
 
 
@@ -45,13 +45,13 @@ function App() {
     }, [])
 
     const removeTask = useCallback(function (id: string, todolistId: string) {
-        // const action = removeTaskAC(id, todolistId);
+        // const action = removeTaskAC(id, todolistId);     ----до запроса----
         // dispatch(action);
         dispatch(removeTaskTC(todolistId, id))
     }, []);
 
     const addTask = useCallback(function (title: string, todolistId: string) {
-        // const action = addTaskAC(title, todolistId);
+        // const action = addTaskAC(title, todolistId);       ----до запроса----
         // dispatch(action);
         dispatch(createTaskTC(todolistId, title))
     }, []);
@@ -62,8 +62,18 @@ function App() {
     }, []);
 
     const changeTaskTitle = useCallback(function (id: string, newTitle: string, todolistId: string) {
-        const action = changeTaskTitleAC(id, newTitle, todolistId);
-        dispatch(action);
+        // const action = changeTaskTitleAC(id, newTitle, todolistId);         ----до запроса----
+        // dispatch(action);
+        const model:ModelType = {
+            title: newTitle,
+            description: '',
+            completed: false,
+            status: 1,
+            priority: 3,
+            startDate: '',
+            deadline: '',
+        }
+        dispatch(updateTaskTC(todolistId, id, model))
     }, []);
 
     const changeFilter = useCallback(function (value: FilterValuesType, todolistId: string) {

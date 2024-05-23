@@ -1,10 +1,10 @@
 import { AxiosResponse } from 'axios'
 import {instance, CreateTodolistResponseType} from './todolists-api'
 
-export type modelType = {
+export type ModelType = {
     title: string
     description: string
-    completed: boolean
+    // completed: boolean
     status: number
     priority: number
     startDate: string
@@ -57,7 +57,7 @@ export const tasksAPI = {
     deleteTask(todolistID: string, taskID: string) {
         return instance.delete<CreateTodolistResponseType>(`todo-lists/${todolistID}/tasks/${taskID}`)
     },
-    updateTaskModel(todolistID: string, taskID: string, model: modelType) {
-        return instance.put<CreateTodolistResponseType<{item:TaskType}>, AxiosResponse<CreateTodolistResponseType<{item: TaskType}>>, modelType>(`todo-lists/${todolistID}/tasks/${taskID}`,  model)
+    updateTaskModel(todolistID: string, taskID: string, model: ModelType) {
+        return instance.put<CreateTodolistResponseType<{item:TaskType}>, AxiosResponse<CreateTodolistResponseType<{item: TaskType}>>, ModelType>(`todo-lists/${todolistID}/tasks/${taskID}`,  model)
     }
 }
