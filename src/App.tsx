@@ -19,7 +19,7 @@ import {
     removeTodolistAC,
     setTodolistsThunkTC
 } from './state/todolists-reducer';
-import {changeTaskStatusAC, changeTaskTitleAC, createTaskTC, removeTaskTC, updateTaskTC} from './state/tasks-reducer';
+import {createTaskTC, removeTaskTC, updateTaskStatusTC, updateTaskTC} from './state/tasks-reducer';
 import {useAppDispatch, useAppSelector} from './state/store';
 import {ModelType, TaskStatuses, TaskType} from './api/tasks-api';
 import {TodolistType} from './api/todolists-api';
@@ -57,17 +57,18 @@ function App() {
     }, []);
 
     const changeStatus = useCallback(function (id: string, status: TaskStatuses, todolistId: string) {
-        const action = changeTaskStatusAC(id, status, todolistId);
-        dispatch(action);
+        // const action = changeTaskStatusAC(id, status, todolistId);
+        // dispatch(action);
+        dispatch(updateTaskStatusTC(todolistId, id, status))
     }, []);
 
     const changeTaskTitle = useCallback(function (id: string, newTitle: string, todolistId: string) {
         // const action = changeTaskTitleAC(id, newTitle, todolistId);         ----до запроса----
         // dispatch(action);
-        const model:ModelType = {
+        const model: ModelType = {
             title: newTitle,
             description: '',
-            completed: false,
+            // completed: false,
             status: 1,
             priority: 3,
             startDate: '',
