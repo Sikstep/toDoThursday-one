@@ -1,8 +1,6 @@
 import {TodolistDomainType} from '../App';
 import {todolistsAPI, TodolistType} from '../api/todolists-api';
-import {Dispatch} from 'redux';
 import {v1} from 'uuid';
-import {getTasksTC, setTasksAC} from './tasks-reducer';
 import {AppThunk} from './store';
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
@@ -44,7 +42,7 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
             return [...state]
         }
         case 'CHANGE-TODOLIST-FILTER': {
-                const todolist = state.find(tl => tl.id === action.id);
+            const todolist = state.find(tl => tl.id === action.id);
             if (todolist) {
                 // если нашёлся - изменим ему заголовок
                 todolist.filter = action.filter;
@@ -73,13 +71,14 @@ export const removeTodolistAC = (todolistId: string) => {
     } as const
 }
 
-export const addTodolistAC = (title: string) => {
+export const addTodolistAC = (title: string, todolistId: string) => {
     return {
         type: 'ADD-TODOLIST',
-        payload: {title, todolistId: v1()}
+        payload: {title, todolistId}
 
     } as const
 }
+
 export const changeTodolistTitleAC = (id: string, title: string) => {
     return {type: 'CHANGE-TODOLIST-TITLE', id: id, title: title} as const
 }
@@ -87,15 +86,15 @@ export const changeTodolistFilterAC = (id: string, filter: FilterValuesType) => 
     return {type: 'CHANGE-TODOLIST-FILTER', id: id, filter: filter} as const
 }
 
-export const setTodolistsThunkTC = ():AppThunk => (dispatch: Dispatch<ActionsType>) => {
-    todolistsAPI.getTodolists()
-        .then((res) => {
-            dispatch(setTodolistsAC(res.data))
-        })
-}
+// ---------- без axios------------
+// export const setTodolistsThunkTC = ():AppThunk => (dispatch: Dispatch<ActionsType>) => {
+//     todolistsAPI.getTodolists()
+//         .then((res) => {
+//             dispatch(setTodolistsAC(res.data))
+//         })
+// }
 
-export const _setTodolistsThunkTC = ():AppThunk => async (dispatch) => {
-
+export const _setTodolistsThunkTC = (): AppThunk => async (dispatch) => {
     try {
         const res = await todolistsAPI.getTodolists()
         dispatch(setTodolistsAC(res.data))
@@ -103,4 +102,22 @@ export const _setTodolistsThunkTC = ():AppThunk => async (dispatch) => {
         console.log(e)
     }
 
+}
+
+export const addTodoListTC = (title: string):AppThunk => async (dispatch) => {
+    try {
+        const response = await todolistsAPI.createTodolist(title)
+        dispatch(addTodolistAC(response.data.data.item.title, response.data.data.item.id))
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+export const removeTodolistTC = (todolistID: string):AppThunk => async (dispatch) => {
+    try {
+        await todolistsAPI.deleteTodolist(todolistID)
+        dispatch(removeTodolistAC(todolistID))
+    } catch (e) {
+        console.log(e)
+    }
 }

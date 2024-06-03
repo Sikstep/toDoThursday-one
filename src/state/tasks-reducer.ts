@@ -150,7 +150,7 @@ export const removeTaskTC = (todolistID: string, taskID: string) => (dispatch: D
         })
 }
 
-export const createTaskTC = (todolistID: string, title: string):AppThunk => (dispatch) => {
+export const createTaskTC = (todolistID: string, title: string): AppThunk => (dispatch) => {
     tasksAPI.createNewTask(todolistID, title)
         .then((res) => {
             dispatch(addTaskAC(res.data.data.item))
@@ -164,7 +164,30 @@ export const updateTaskTC = (todolistID: string, taskID: string, model: ModelTyp
         })
 }
 
-export const updateTaskStatusTC = (todolistID: string, taskID: string, status: TaskStatuses):AppThunk =>
+export const _updateTaskTitleTC = (todolistID: string, taskID: string, title: string): AppThunk =>
+    async (dispatch, getState) => {
+        const rootState = getState()
+        const task = rootState.tasks[todolistID].find(t => t.id === taskID)
+        if (task) {
+            const model: ModelType = {
+                title,
+                status: task.status,
+                description: task.description,
+                priority: task.priority,
+                startDate: task.startDate,
+                deadline: task.deadline,
+
+            }
+            try {
+                const response = await tasksAPI.updateTaskModel(todolistID, taskID, model)
+                dispatch(changeTaskTitleAC(taskID, title, todolistID))
+            } catch (e) {
+                console.log(e)
+            }
+        }
+    }
+
+export const updateTaskStatusTC = (todolistID: string, taskID: string, status: TaskStatuses): AppThunk =>
     (dispatch, getState, extraArgument) => {
         const rootState = getState()
 
@@ -187,7 +210,7 @@ export const updateTaskStatusTC = (todolistID: string, taskID: string, status: T
 
     }
 
-export const _updateTaskStatusTC = (todolistID: string, taskID: string, status: TaskStatuses):AppThunk =>
+export const _updateTaskStatusTC = (todolistID: string, taskID: string, status: TaskStatuses): AppThunk =>
     async (dispatch: Dispatch<ActionsType>, getState: () => AppRootStateType, extraArg: any) => {
         const rootState = getState()
 
