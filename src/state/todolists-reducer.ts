@@ -3,6 +3,7 @@ import {todolistsAPI, TodolistType} from '../api/todolists-api';
 import {Dispatch} from 'redux';
 import {v1} from 'uuid';
 import {getTasksTC, setTasksAC} from './tasks-reducer';
+import {AppThunk} from './store';
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
 
@@ -86,9 +87,20 @@ export const changeTodolistFilterAC = (id: string, filter: FilterValuesType) => 
     return {type: 'CHANGE-TODOLIST-FILTER', id: id, filter: filter} as const
 }
 
-export const setTodolistsThunkTC = () => (dispatch: Dispatch<ActionsType>) => {
+export const setTodolistsThunkTC = ():AppThunk => (dispatch: Dispatch<ActionsType>) => {
     todolistsAPI.getTodolists()
         .then((res) => {
             dispatch(setTodolistsAC(res.data))
         })
+}
+
+export const _setTodolistsThunkTC = ():AppThunk => async (dispatch) => {
+
+    try {
+        const res = await todolistsAPI.getTodolists()
+        dispatch(setTodolistsAC(res.data))
+    } catch (e) {
+        console.log(e)
+    }
+
 }

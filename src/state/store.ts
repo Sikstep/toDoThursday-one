@@ -1,7 +1,7 @@
 import {tasksReducer} from './tasks-reducer';
 import {todolistsReducer} from './todolists-reducer';
 import {AnyAction, applyMiddleware, combineReducers, legacy_createStore as createStore} from 'redux';
-import {thunk, ThunkDispatch} from 'redux-thunk';
+import {thunk, ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 
 
@@ -16,6 +16,12 @@ export const store = createStore(rootReducer, applyMiddleware(thunk));
 // определить автоматически тип всего объекта состояния
 export type AppRootStateType = ReturnType<typeof rootReducer>
 type AppDispatchType = ThunkDispatch<AppRootStateType, unknown, AnyAction>
+export type AppThunk<ReturnType = void> = ThunkAction<
+    ReturnType,
+    AppRootStateType,
+    unknown,
+    AnyAction
+>
 export const useAppDispatch = useDispatch<AppDispatchType>;
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
 
