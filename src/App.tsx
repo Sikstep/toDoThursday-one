@@ -15,7 +15,7 @@ import {
     _setTodolistsThunkTC,
     addTodolistAC, addTodoListTC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC,
+    changeTodolistTitleAC, changeTodoTitleTC,
     FilterValuesType,
     removeTodolistAC, removeTodolistTC
 } from './state/todolists-reducer';
@@ -91,8 +91,9 @@ function App() {
     }, []);
 
     const changeTodolistTitle = useCallback(function (id: string, title: string) {
-        const action = changeTodolistTitleAC(id, title);
-        dispatch(action);
+        // const action = changeTodolistTitleAC(id, title);             ------- до thunk--------
+        // dispatch(action);
+        dispatch(changeTodoTitleTC(id, title))
     }, []);
 
     const addTodolist = useCallback((title: string) => {
