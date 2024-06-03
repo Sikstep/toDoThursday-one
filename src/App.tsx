@@ -12,6 +12,7 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import {Menu} from '@mui/icons-material';
 import {
+    _setTodolistsThunkTC,
     addTodolistAC,
     changeTodolistFilterAC,
     changeTodolistTitleAC,
@@ -41,7 +42,7 @@ function App() {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(setTodolistsThunkTC())
+        dispatch(_setTodolistsThunkTC())
     }, [])
 
     const removeTask = useCallback(function (id: string, todolistId: string) {

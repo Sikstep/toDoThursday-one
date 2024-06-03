@@ -150,7 +150,7 @@ export const removeTaskTC = (todolistID: string, taskID: string) => (dispatch: D
         })
 }
 
-export const createTaskTC = (todolistID: string, title: string) => (dispatch: Dispatch<ActionsType>) => {
+export const createTaskTC = (todolistID: string, title: string):AppThunk => (dispatch) => {
     tasksAPI.createNewTask(todolistID, title)
         .then((res) => {
             dispatch(addTaskAC(res.data.data.item))

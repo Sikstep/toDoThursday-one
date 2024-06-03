@@ -16,12 +16,7 @@ export const store = createStore(rootReducer, applyMiddleware(thunk));
 // определить автоматически тип всего объекта состояния
 export type AppRootStateType = ReturnType<typeof rootReducer>
 type AppDispatchType = ThunkDispatch<AppRootStateType, unknown, AnyAction>
-export type AppThunk<ReturnType = void> = ThunkAction<
-    ReturnType,
-    AppRootStateType,
-    unknown,
-    AnyAction
->
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, AnyAction>
 export const useAppDispatch = useDispatch<AppDispatchType>;
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
 
