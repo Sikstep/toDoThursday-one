@@ -6,15 +6,13 @@ export type FilterValuesType = 'all' | 'active' | 'completed';
 
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
-export type ChangeTodolistTitleActionType = ReturnType<typeof changeTodolistTitleAC>
-export type ChangeTodolistFilterActionType = ReturnType<typeof changeTodolistFilterAC>
-export type GetTodolists = ReturnType<typeof setTodolistsAC>
+export type GetTodolistsActionType = ReturnType<typeof setTodolistsAC>
 
 type ActionsType = RemoveTodolistActionType
     | AddTodolistActionType
-    | ChangeTodolistTitleActionType
-    | ChangeTodolistFilterActionType
-    | GetTodolists
+    | ReturnType<typeof changeTodolistTitleAC>
+    | ReturnType<typeof changeTodolistFilterAC>
+    | GetTodolistsActionType
 
 const initialState: Array<TodolistDomainType> = []
 
