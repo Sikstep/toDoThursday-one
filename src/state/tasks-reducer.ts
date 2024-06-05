@@ -4,30 +4,17 @@ import {ModelType, tasksAPI, TaskStatuses, TaskType} from '../api/tasks-api';
 import {AppThunk} from './store';
 import {logger} from '@storybook/node-logger';
 
-type ActionsType =
-    ReturnType<typeof removeTaskAC>
-    | ReturnType<typeof addTaskAC>
-    | ReturnType<typeof changeTaskStatusAC>
-    | ReturnType<typeof updateTaskAC>
-    | AddTodolistActionType
-    | RemoveTodolistActionType
-    | GetTodolistsActionType
-    | ReturnType<typeof setTasksAC>
-    | ReturnType<typeof changeTaskTitleAC>
-
-
 const initialState: TasksStateType = {}
 
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
-        case 'REMOVE-TASK': {
-            const stateCopy = {...state}
-            const tasks = stateCopy[action.todolistId];
-            const newTasks = tasks.filter(t => t.id != action.taskId);
-            stateCopy[action.todolistId] = newTasks;
-            return stateCopy;
-        }
-        case 'ADD-TASK': {
+        case 'REMOVE-TASK':
+            // const stateCopy = {...state}
+            // const tasks = stateCopy[action.todolistId];
+            // const newTasks = tasks.filter(t => t.id != action.taskId);
+            // stateCopy[action.todolistId] = newTasks;
+            return {...state, [action.todolistId]: state[action.todolistId].filter(t => t.id !== action.taskId)}
+        case 'ADD-TASK':
             // const stateCopy = {...state}                           ---------Старое без запроса-----------
             // const newTask: TaskType = {
             //     id: v1(),
@@ -47,31 +34,35 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             // stateCopy[action.todolistId] = newTasks;
             // return stateCopy;
             return {...state, [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]}
-        }
-        case 'CHANGE-TASK-STATUS': {
-            let todolistTasks = state[action.todolistId];
-            let newTasksArray = todolistTasks
-                .map(t => t.id === action.taskId ? {...t, status: action.status} : t);
-
-            state[action.todolistId] = newTasksArray;
-            return ({...state});
-        }
-        case 'CHANGE-TASK-TITLE': {
-            let todolistTasks = state[action.todolistId];
-            // найдём нужную таску:
-            let newTasksArray = todolistTasks
-                .map(t => t.id === action.taskId ? {...t, title: action.title} : t);
-
-            state[action.todolistId] = newTasksArray;
-            return ({...state});
-
-        }
-        case 'ADD-TODOLIST': {
-            return {
-                ...state,
-                [action.payload.todolistId]: []
+        case 'CHANGE-TASK-STATUS':
+            // let todolistTasks = state[action.todolistId];
+            // let newTasksArray = todolistTasks
+            //     .map(t => t.id === action.taskId ? {...t, status: action.status} : t);
+            //
+            // state[action.todolistId] = newTasksArray;
+            // return ({...state});
+            return {...state,
+                [action.todolistId]: state[action.todolistId].map(t => t.id === action.taskId ? {
+                    ...t,
+                    status: action.status
+                } : t)
             }
-        }
+        case 'CHANGE-TASK-TITLE':
+            // let todolistTasks = state[action.todolistId];
+            // // найдём нужную таску:
+            // let newTasksArray = todolistTasks
+            //     .map(t => t.id === action.taskId ? {...t, title: action.title} : t);
+            //
+            // state[action.todolistId] = newTasksArray;
+            // return ({...state});
+            return {...state,
+                [action.todolistId]: state[action.todolistId].map(t => t.id === action.taskId ? {
+                    ...t,
+                    title: action.title
+                } : t)
+            }
+        case 'ADD-TODOLIST':
+            return {...state, [action.payload.todolistId]: []}
         case 'REMOVE-TODOLIST': {
             const copyState = {...state};
             delete copyState[action.payload.todolistId];
@@ -79,8 +70,13 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         }
         case 'SET-TODOS': {
             const copyState = {...state}
-            action.payload.forEach((tl) => copyState[tl.id] = [])
+            action.todolists.forEach((tl) => copyState[tl.id] = [])
             return copyState
+
+            // const copyState = {...state}
+            // return action.payload.reduce((acc,tl) => {copyState[tl.id] = []
+            //     return copyState
+            // }, {...state})
         }
         case 'SET-TASKS': {
             return {...state, [action.payload.todolistID]: action.payload.tasks}
@@ -114,7 +110,6 @@ export const changeTaskTitleAC = (taskId: string, title: string, todolistId: str
 export const updateTaskAC = (newTask: TaskType) => ({type: 'UPDATE-TASK', newTask} as const)
 
 //Thunks
-
 export const getTasksTC = (todolistID: string): AppThunk => async (dispatch) => {
     try {
         const res = await tasksAPI.getTasks(todolistID)
@@ -147,7 +142,7 @@ export const updateTaskTC = (todolistID: string, taskID: string, model: ModelTyp
     } catch (e) {
         console.log(e)
     }
- }
+}
 export const _updateTaskTitleTC = (todolistID: string, taskID: string, title: string): AppThunk =>
     async (dispatch, getState) => {
         const rootState = getState()
@@ -190,3 +185,16 @@ export const updateTaskStatusTC = (todolistID: string, taskID: string, status: T
                 })
         }
     }
+
+// types
+
+type ActionsType =
+    ReturnType<typeof removeTaskAC>
+    | ReturnType<typeof addTaskAC>
+    | ReturnType<typeof changeTaskStatusAC>
+    | ReturnType<typeof updateTaskAC>
+    | AddTodolistActionType
+    | RemoveTodolistActionType
+    | GetTodolistsActionType
+    | ReturnType<typeof setTasksAC>
+    | ReturnType<typeof changeTaskTitleAC>
