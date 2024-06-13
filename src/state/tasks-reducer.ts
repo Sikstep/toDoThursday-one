@@ -2,7 +2,6 @@ import {AddTodolistActionType, GetTodolistsActionType, RemoveTodolistActionType}
 import {TasksStateType} from '../App';
 import {ModelType, tasksAPI, TaskStatuses, TaskType} from '../api/tasks-api';
 import {AppThunk} from './store';
-import {logger} from '@storybook/node-logger';
 
 const initialState: TasksStateType = {}
 
