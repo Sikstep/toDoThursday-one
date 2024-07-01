@@ -70,6 +70,7 @@ export const addTodoListTC = (title: string): AppThunk => async (dispatch) => {
         console.log(e)
     }
 }
+
 export const removeTodolistTC = (todolistID: string): AppThunk => async (dispatch) => {
     try {
         await todolistsAPI.deleteTodolist(todolistID)
